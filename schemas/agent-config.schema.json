@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://managed-platform.example/schemas/agent-config.schema.json",
+  "title": "Installed Agent Configuration",
+  "description": "Local non-secret agent configuration; credentials are stored separately using OS-protected storage.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "organization_id", "controller", "agent", "enabled_modules", "logging"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "organization_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "controller": {"$ref": "./controller-config.schema.json"},
+    "agent": {"type": "object", "additionalProperties": false, "required": ["display_name"], "properties": {"display_name": {"type": "string", "minLength": 1, "maxLength": 128}}},
+    "enabled_modules": {"type": "array", "uniqueItems": true, "items": {"enum": ["system_info", "process_list", "disk_usage", "network_interface_info", "service_inventory", "agent_health"]}},
+    "logging": {"type": "object", "additionalProperties": false, "required": ["level", "format"], "properties": {"level": {"enum": ["debug", "information", "warning", "error"]}, "format": {"const": "structured_json"}}},
+    "update_channel": {"enum": ["stable", "preview"]}
+  },
+  "not": {"anyOf": [{"required": ["enrollment_token"]}, {"required": ["admin_password"]}, {"required": ["agent_credential"]}]}
+}

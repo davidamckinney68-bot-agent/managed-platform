@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "organization_id": "example-org",
+  "controller": {"base_url": "https://controller.example.invalid", "port": 443},
+  "agent": {"display_name": "Example managed endpoint"},
+  "modules": ["system_info", "agent_health"],
+  "enrollment": {"method": "one_time_invitation"},
+  "logging": {"level": "information", "format": "structured_json"},
+  "update_channel": "stable",
+  "installation_platform": "linux-x64"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://managed-platform.example/schemas/command-envelope.schema.json",
+  "title": "Allowlisted Diagnostic Command Envelope",
+  "description": "Typed request envelope. Runtime authorization, approval, expiry, signature/authentication and state transitions are enforced by the controller and agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["command_id", "command_type", "target_agent_id", "created_at", "authorization_identity", "execution_status", "timeout_seconds"],
+  "properties": {
+    "command_id": {"type": "string", "format": "uuid"},
+    "command_type": {"enum": ["system_info", "process_list", "disk_usage", "network_interface_info", "service_inventory", "agent_health"]},
+    "target_agent_id": {"type": "string", "format": "uuid"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "authorization_identity": {"type": "string", "minLength": 1, "maxLength": 128},
+    "execution_status": {"enum": ["proposed", "pending_approval", "approved", "queued", "running", "completed", "rejected", "cancelled", "failed", "expired"]},
+    "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300},
+    "result": {},
+    "completed_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

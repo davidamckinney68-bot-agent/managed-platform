@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://managed-platform.example/schemas/controller-config.schema.json",
+  "title": "Controller Endpoint Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["base_url", "port"],
+  "properties": {
+    "base_url": {"type": "string", "format": "uri", "pattern": "^https://", "maxLength": 2048},
+    "port": {"type": "integer", "minimum": 1, "maximum": 65535}
+  }
+}

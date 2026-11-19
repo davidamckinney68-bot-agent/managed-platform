@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://managed-platform.example/schemas/roles.schema.json",
+  "title": "Administrator Role",
+  "type": "string",
+  "enum": ["super_administrator", "administrator", "security_auditor", "read_only_operator"]
+}

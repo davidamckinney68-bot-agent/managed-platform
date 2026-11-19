@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://managed-platform.example/schemas/deployment-profile.schema.json",
+  "title": "Managed Platform Deployment Profile",
+  "description": "Non-secret deployment metadata consumed by an explicitly installed managed agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "organization_id", "controller", "agent", "modules", "enrollment", "logging", "update_channel", "installation_platform"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "organization_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "controller": {"$ref": "./controller-config.schema.json"},
+    "agent": {
+      "type": "object", "additionalProperties": false,
+      "required": ["display_name"],
+      "properties": {"display_name": {"type": "string", "minLength": 1, "maxLength": 128}}
+    },
+    "modules": {
+      "type": "array", "uniqueItems": true,
+      "items": {"enum": ["system_info", "process_list", "disk_usage", "network_interface_info", "service_inventory", "agent_health"]}
+    },
+    "enrollment": {"type": "object", "additionalProperties": false, "required": ["method"], "properties": {"method": {"enum": ["one_time_invitation"]}}},
+    "logging": {"type": "object", "additionalProperties": false, "required": ["level", "format"], "properties": {"level": {"enum": ["debug", "information", "warning", "error"]}, "format": {"enum": ["structured_json"]}}},
+    "update_channel": {"enum": ["stable", "preview"]},
+    "installation_platform": {"enum": ["windows-x64", "linux-x64", "linux-arm64"]}
+  },
+  "not": {"anyOf": [{"required": ["enrollment_token"]}, {"required": ["admin_password"]}, {"required": ["signing_private_key"]}]}
+}
